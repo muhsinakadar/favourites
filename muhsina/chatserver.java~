@@ -1,0 +1,44 @@
+import java.net.*;
+import java.util.*;
+import java.io.*;
+class ChatServer implements Runnable
+{
+ static Socket s;
+ public static void main(String args[]) throws Exception
+ {
+  ChatServer ser=new ChatServer();
+  ServerSocket ss=new ServerSocket(200);
+  s=ss.accept();
+  Thread t=new Thread(ser);
+  t.start();
+  InputStream is=s.getInputStream();
+  Scanner sc=new Scanner(is);
+  String str="";
+  while(!str.equals("stop"))
+  {
+   str=sc.next();
+   System.out.println(str);
+  }
+System.exit(0);
+}
+public void run()
+{
+ try
+  {
+   OutputStream os=s.getOutputStream();
+   PrintStream pc=new PrintStream(os);
+   Scanner sc=new Scanner(System.in);
+   String str="";
+   while(!str.equals("stop"))
+   {
+    str=sc.next();
+    pc.println(str);
+    Thread.sleep(100);
+   }
+ }
+catch(Exception e)
+{
+ System.out.println("Exception caught"+e);
+}
+}
+}

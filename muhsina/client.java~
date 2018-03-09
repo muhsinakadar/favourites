@@ -1,0 +1,25 @@
+import java.io.*;
+import java.net.*;
+class TCPClient
+{
+ public static void main(String args[]) throws Exception
+ {
+   String sentence;
+   String modifiedsentence;
+   System.out.println("Client is waiting to establish a connection with the server");
+   Socket ClientSocket=new Socket("localhost",9000);
+   System.out.println("Client successfully established a connection with the server and ready for data transfer");
+   //Data transfer phase of TCP
+   BufferedReader inFromUser= new BufferedReader(new InputStreamReader(System.in));
+   sentence=inFromUser.readLine();
+   DataOutputStream outToServer=new DataOutputStream(ClientSocket.getOutputStream());
+   outToServer.writeBytes(sentence+'\n');
+   BufferedReader inFromServer=new BufferedReader(new InputStreamReader(ClientSocket.getInputStream()));
+   modifiedsentence=inFromServer.readLine();
+   System.out.println("Result from server:"+modifiedsentence);
+   System.out.println("Client closing connection with the server");
+   ClientSocket.close();
+}
+}
+
+ 

@@ -1,0 +1,25 @@
+import java.io.*;
+import java.net.*;
+class TCPSERVER
+{
+public static void main(String argv[]) throws Exception
+{
+String clientSentence;
+String capitalizedSentence;
+System.out.println("server is waiting to establish a connection with the client");
+ServerSocket welcomeSocket=new ServerSocket(9000);
+System.out.println("client is waiting to establish a connection with server");
+while(true)
+{
+Socket connectionSocket=welcomeSocket.accept();
+System.out.println("both Client and server established a connection and is ready for data transfer");
+BufferedReader inFromClient= new BufferedReader(new InputStreamReader(connectionSocket.getInputStream()));
+DataOutputStream outToClient=new DataOutputStream(connectionSocket.getOutputStream());
+clientSentence= inFromClient.readLine();
+System.out.println("data recieved from Client before processing at server:"+clientSentence);
+capitalizedSentence=clientSentence.toUpperCase()+'\n';
+outToClient.writeBytes(capitalizedSentence);
+}
+}
+}
+
